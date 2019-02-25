@@ -70,4 +70,9 @@ public class ApplicationAlarmH2PersistenceDAO extends AbstractPersistenceH2DAO<A
 
         return target;
     }
+
+    @Override
+    public String getTableSuffix(ApplicationAlarm data) {
+        return "";
+    }
 }

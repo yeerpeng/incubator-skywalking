@@ -38,4 +38,9 @@ public class ServiceMinuteMetricShardingjdbcPersistenceDAO extends AbstractServi
     @Override protected String tableName() {
         return ServiceMetricTable.TABLE + Const.ID_SPLIT + TimePyramid.Minute.getName();
     }
+
+    @Override
+    public String getTableSuffix(ServiceMetric data) {
+        return "";
+    }
 }

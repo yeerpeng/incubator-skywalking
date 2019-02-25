@@ -19,6 +19,8 @@
 package org.apache.skywalking.apm.collector.storage.es.dao;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 import org.apache.skywalking.apm.collector.client.elasticsearch.ElasticSearchClient;
 import org.apache.skywalking.apm.collector.core.annotations.trace.GraphComputingMetric;
@@ -28,11 +30,15 @@ import org.apache.skywalking.apm.collector.storage.table.global.*;
 import org.elasticsearch.action.index.IndexRequestBuilder;
 import org.elasticsearch.action.update.UpdateRequestBuilder;
 import org.elasticsearch.common.xcontent.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author peng-yongsheng
  */
 public class GlobalTraceEsPersistenceDAO extends AbstractPersistenceEsDAO<GlobalTrace> implements IGlobalTracePersistenceDAO<IndexRequestBuilder, UpdateRequestBuilder, GlobalTrace> {
+
+    private static final Logger logger = LoggerFactory.getLogger(GlobalTraceEsPersistenceDAO.class);
 
     public GlobalTraceEsPersistenceDAO(ElasticSearchClient client) {
         super(client);
@@ -64,7 +70,22 @@ public class GlobalTraceEsPersistenceDAO extends AbstractPersistenceEsDAO<Global
     }
 
     @GraphComputingMetric(name = "/persistence/get/" + GlobalTraceTable.TABLE)
-    @Override public GlobalTrace get(String id) {
-        return super.get(id);
+    @Override public GlobalTrace get(String id, String tableSuffix) {
+        return super.get(id, tableSuffix);
+    }
+
+    @Override
+    public String getTableSuffix(GlobalTrace streamData) {
+        if (streamData == null) {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+            return "_" + formatter.format(new Date());
+        }
+        try {
+            return "_" + streamData.getTimeBucket().toString().substring(0, 8);
+        } catch (Exception e) {
+            logger.info("get GlobalTrace index suffix fail:{}",streamData.getTimeBucket());
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+            return "_" + formatter.format(new Date());
+        }
     }
 }

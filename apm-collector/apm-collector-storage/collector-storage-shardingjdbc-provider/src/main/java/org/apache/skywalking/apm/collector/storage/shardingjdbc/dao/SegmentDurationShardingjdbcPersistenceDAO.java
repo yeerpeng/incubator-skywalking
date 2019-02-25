@@ -42,8 +42,13 @@ public class SegmentDurationShardingjdbcPersistenceDAO extends ShardingjdbcDAO i
         super(client);
     }
 
-    @Override public SegmentDuration get(String id) {
+    @Override public SegmentDuration get(String id, String tableSuffix) {
         return null;
+    }
+
+    @Override
+    public String getTableSuffix(SegmentDuration data) {
+        return "";
     }
 
     @Override public ShardingjdbcSqlEntity prepareBatchInsert(SegmentDuration data) {

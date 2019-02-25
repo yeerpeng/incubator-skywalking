@@ -38,4 +38,9 @@ public class ApplicationComponentDayH2PersistenceDAO extends AbstractApplication
     @Override protected String tableName() {
         return ApplicationComponentTable.TABLE + Const.ID_SPLIT + TimePyramid.Day.getName();
     }
+
+    @Override
+    public String getTableSuffix(ApplicationComponent data) {
+        return "";
+    }
 }

@@ -38,4 +38,9 @@ public class MemoryMonthMetricH2PersistenceDAO extends AbstractMemoryMetricH2Per
     @Override protected String tableName() {
         return MemoryMetricTable.TABLE + Const.ID_SPLIT + TimePyramid.Month.getName();
     }
+
+    @Override
+    public String getTableSuffix(MemoryMetric data) {
+        return "";
+    }
 }

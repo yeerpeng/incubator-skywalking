@@ -127,12 +127,21 @@ public class SegmentParse {
                 }
             }
 
+            long oldSub = 0;
+            if (segmentCoreInfo.getEndTime() != Long.MAX_VALUE && segmentCoreInfo.getStartTime() != Long.MIN_VALUE) {
+                oldSub = segmentCoreInfo.getEndTime() - segmentCoreInfo.getStartTime();
+            }
+
+            long newSub = spanDecorator.getEndTime() - spanDecorator.getStartTime();
+
             if (segmentCoreInfo.getStartTime() > spanDecorator.getStartTime()) {
                 segmentCoreInfo.setStartTime(spanDecorator.getStartTime());
             }
-            if (segmentCoreInfo.getEndTime() < spanDecorator.getEndTime()) {
-                segmentCoreInfo.setEndTime(spanDecorator.getEndTime());
-            }
+            long sub = oldSub > newSub ? oldSub : newSub;
+            segmentCoreInfo.setEndTime(segmentCoreInfo.getStartTime() + sub);
+//            if (segmentCoreInfo.getEndTime() < spanDecorator.getEndTime()) {
+//                segmentCoreInfo.setEndTime(spanDecorator.getEndTime());
+//            }
             segmentCoreInfo.setError(spanDecorator.getIsError() || segmentCoreInfo.isError());
         }
 

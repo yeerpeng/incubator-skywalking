@@ -26,6 +26,7 @@ import org.apache.skywalking.apm.collector.storage.es.base.dao.EsDAO;
 import org.apache.skywalking.apm.collector.storage.table.segment.SegmentDurationTable;
 import org.apache.skywalking.apm.collector.storage.ui.trace.*;
 import org.elasticsearch.action.search.*;
+import org.elasticsearch.action.support.IndicesOptions;
 import org.elasticsearch.index.query.*;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.sort.SortOrder;
@@ -40,10 +41,11 @@ public class SegmentDurationEsUIDAO extends EsDAO implements ISegmentDurationUID
     }
 
     @Override
-    public TraceBrief loadTop(long startSecondTimeBucket, long endSecondTimeBucket, long minDuration, long maxDuration,
+    public TraceBrief loadTop(String[] index, long startSecondTimeBucket, long endSecondTimeBucket, long minDuration, long maxDuration,
         String operationName, int applicationId, int limit, int from, TraceState traceState, QueryOrder queryOrder,
         String... segmentIds) {
-        SearchRequestBuilder searchRequestBuilder = getClient().prepareSearch(SegmentDurationTable.TABLE);
+        SearchRequestBuilder searchRequestBuilder = getClient().prepareSearch(index)
+                .setIndicesOptions(IndicesOptions.fromOptions(true, true, true, false));
         searchRequestBuilder.setTypes(SegmentDurationTable.TABLE_TYPE);
         searchRequestBuilder.setSearchType(SearchType.DFS_QUERY_THEN_FETCH);
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();

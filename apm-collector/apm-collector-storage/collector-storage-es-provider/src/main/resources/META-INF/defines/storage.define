@@ -71,9 +71,17 @@ org.apache.skywalking.apm.collector.storage.es.define.rtd.ResponseTimeDistributi
 org.apache.skywalking.apm.collector.storage.es.define.rtd.ResponseTimeDistributionDayEsTableDefine
 org.apache.skywalking.apm.collector.storage.es.define.rtd.ResponseTimeDistributionMonthEsTableDefine
 
-org.apache.skywalking.apm.collector.storage.es.define.GlobalTraceEsTableDefine
-org.apache.skywalking.apm.collector.storage.es.define.SegmentEsTableDefine
-org.apache.skywalking.apm.collector.storage.es.define.SegmentDurationEsTableDefine
+org.apache.skywalking.apm.collector.storage.es.define.GlobalTraceEsTableTodayDefine
+org.apache.skywalking.apm.collector.storage.es.define.GlobalTraceEsTableAfterOneDefine
+org.apache.skywalking.apm.collector.storage.es.define.GlobalTraceEsTableAfterTwoDefine
+
+org.apache.skywalking.apm.collector.storage.es.define.SegmentEsTableTodayDefine
+org.apache.skywalking.apm.collector.storage.es.define.SegmentEsTableAfterOneDefine
+org.apache.skywalking.apm.collector.storage.es.define.SegmentEsTableAfterTwoDefine
+
+org.apache.skywalking.apm.collector.storage.es.define.SegmentDurationEsTableTodayDefine
+org.apache.skywalking.apm.collector.storage.es.define.SegmentDurationEsTableAfterOneDefine
+org.apache.skywalking.apm.collector.storage.es.define.SegmentDurationEsTableAfterTwoDefine
 
 org.apache.skywalking.apm.collector.storage.es.define.alarm.ApplicationAlarmEsTableDefine
 

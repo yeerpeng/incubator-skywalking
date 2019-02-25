@@ -38,4 +38,9 @@ public class InstanceMappingHourShardingjdbcPersistenceDAO extends AbstractInsta
     @Override protected String tableName() {
         return InstanceMappingTable.TABLE + Const.ID_SPLIT + TimePyramid.Hour.getName();
     }
+
+    @Override
+    public String getTableSuffix(InstanceMapping data) {
+        return "";
+    }
 }

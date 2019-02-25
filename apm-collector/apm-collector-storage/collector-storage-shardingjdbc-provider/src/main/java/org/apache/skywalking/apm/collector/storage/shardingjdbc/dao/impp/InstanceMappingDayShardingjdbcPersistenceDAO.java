@@ -38,4 +38,9 @@ public class InstanceMappingDayShardingjdbcPersistenceDAO extends AbstractInstan
     @Override protected String tableName() {
         return InstanceMappingTable.TABLE + Const.ID_SPLIT + TimePyramid.Day.getName();
     }
+
+    @Override
+    public String getTableSuffix(InstanceMapping data) {
+        return "";
+    }
 }

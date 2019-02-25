@@ -47,7 +47,7 @@ public class SegmentShardingjdbcUIDAO extends ShardingjdbcDAO implements ISegmen
         super(client);
     }
 
-    @Override public TraceSegmentObject load(String segmentId) {
+    @Override public TraceSegmentObject load(String segmentId, String[] index) {
         ShardingjdbcClient client = getClient();
         String sql = SqlBuilder.buildSql(GET_SEGMENT_SQL, SegmentTable.DATA_BINARY.getName(),
             SegmentTable.TABLE, SegmentTable.ID.getName());

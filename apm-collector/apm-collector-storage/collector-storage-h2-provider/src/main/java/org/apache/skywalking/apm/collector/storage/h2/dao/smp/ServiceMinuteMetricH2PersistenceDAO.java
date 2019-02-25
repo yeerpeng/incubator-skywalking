@@ -38,4 +38,9 @@ public class ServiceMinuteMetricH2PersistenceDAO extends AbstractServiceMetricH2
     @Override protected String tableName() {
         return ServiceMetricTable.TABLE + Const.ID_SPLIT + TimePyramid.Minute.getName();
     }
+
+    @Override
+    public String getTableSuffix(ServiceMetric data) {
+        return "";
+    }
 }

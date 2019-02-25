@@ -38,4 +38,9 @@ public class ServiceReferenceDayMetricShardingjdbcPersistenceDAO extends Abstrac
     @Override protected String tableName() {
         return ServiceReferenceMetricTable.TABLE + Const.ID_SPLIT + TimePyramid.Day.getName();
     }
+
+    @Override
+    public String getTableSuffix(ServiceReferenceMetric data) {
+        return "";
+    }
 }

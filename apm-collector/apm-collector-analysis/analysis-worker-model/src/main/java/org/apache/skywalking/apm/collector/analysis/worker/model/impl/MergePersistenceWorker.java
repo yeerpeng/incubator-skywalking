@@ -49,7 +49,8 @@ public abstract class MergePersistenceWorker<INPUT_AND_OUTPUT extends StreamData
         List<Object> batchCollection = new LinkedList<>();
         collection.collection().forEach((id, data) -> {
             if (needMergeDBData()) {
-                INPUT_AND_OUTPUT dbData = persistenceDAO().get(id);
+                String tableSuffix = persistenceDAO().getTableSuffix(data);
+                INPUT_AND_OUTPUT dbData = persistenceDAO().get(id, tableSuffix);
                 if (nonNull(dbData)) {
                     dbData.mergeAndFormulaCalculateData(data);
                     try {

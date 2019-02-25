@@ -18,8 +18,13 @@
 
 package org.apache.skywalking.apm.collector.storage.es;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.*;
+
+import org.apache.skywalking.apm.collector.core.data.TableDefine;
 import org.apache.skywalking.apm.collector.core.module.ModuleManager;
+import org.apache.skywalking.apm.collector.storage.StorageException;
 import org.apache.skywalking.apm.collector.storage.StorageModule;
 import org.apache.skywalking.apm.collector.storage.dao.*;
 import org.apache.skywalking.apm.collector.storage.dao.acp.*;
@@ -37,7 +42,14 @@ import org.apache.skywalking.apm.collector.storage.dao.mpool.*;
 import org.apache.skywalking.apm.collector.storage.dao.rtd.*;
 import org.apache.skywalking.apm.collector.storage.dao.smp.*;
 import org.apache.skywalking.apm.collector.storage.dao.srmp.*;
+import org.apache.skywalking.apm.collector.storage.es.base.define.ElasticSearchStorageInstaller;
+import org.apache.skywalking.apm.collector.storage.es.dao.SegmentDurationEsPersistenceDAO;
+import org.apache.skywalking.apm.collector.storage.es.define.*;
+import org.apache.skywalking.apm.collector.storage.table.global.GlobalTraceTable;
+import org.apache.skywalking.apm.collector.storage.table.segment.SegmentDurationTable;
+import org.apache.skywalking.apm.collector.storage.table.segment.SegmentTable;
 import org.apache.skywalking.apm.util.RunnableWithExceptionProtection;
+import org.elasticsearch.action.admin.indices.get.GetIndexResponse;
 import org.joda.time.DateTime;
 import org.slf4j.*;
 
@@ -51,6 +63,7 @@ class DataTTLKeeperTimer {
     private final StorageModuleEsNamingListener namingListener;
     private final String selfAddress;
     private final StorageModuleEsConfig config;
+    private final ElasticSearchStorageInstaller elasticSearchStorageInstaller;
 
     DataTTLKeeperTimer(ModuleManager moduleManager,
         StorageModuleEsNamingListener namingListener, String selfAddress, StorageModuleEsConfig config) {
@@ -58,6 +71,7 @@ class DataTTLKeeperTimer {
         this.namingListener = namingListener;
         this.selfAddress = selfAddress;
         this.config = config;
+        this.elasticSearchStorageInstaller = new ElasticSearchStorageInstaller(4, 0, true);
     }
 
     void start() {
@@ -83,6 +97,65 @@ class DataTTLKeeperTimer {
         deleteJVMRelatedData(timeBuckets);
         deleteTraceRelatedData(timeBuckets);
         deleteAlarmRelatedData(timeBuckets);
+
+        SegmentDurationEsPersistenceDAO durationPersistenceDAO = (SegmentDurationEsPersistenceDAO)moduleManager.find(StorageModule.NAME).getService(ISegmentDurationPersistenceDAO.class);
+
+        List<TableDefine> tableDefineList = new ArrayList<>();
+        tableDefineList.add(new GlobalTraceEsTableAfterOneDefine());
+        tableDefineList.add(new GlobalTraceEsTableAfterTwoDefine());
+        tableDefineList.add(new SegmentEsTableAfterOneDefine());
+        tableDefineList.add(new SegmentEsTableAfterTwoDefine());
+        tableDefineList.add(new SegmentDurationEsTableAfterOneDefine());
+        tableDefineList.add(new SegmentDurationEsTableAfterTwoDefine());
+
+        List<String> globalDelete = new ArrayList<>();
+        List<String> segmentDelete = new ArrayList<>();
+        List<String> segmentDurationDelete = new ArrayList<>();
+
+        long dateDown = Long.parseLong((timeBuckets.traceDataBefore + "").substring(0, 8));
+        GetIndexResponse response = durationPersistenceDAO.getClient().getClient().admin().indices().prepareGetIndex().get();
+        String[] indices = response.getIndices();
+        for (String index : indices) {
+            if (index.startsWith(GlobalTraceTable.TABLE + "_2")) {
+                String date = index.split("_")[2];
+                if (Long.parseLong(date) < dateDown) {
+                    globalDelete.add(index);
+                }
+            }
+            if (index.startsWith(SegmentTable.TABLE + "_2")) {
+                String date = index.split("_")[1];
+                if (Long.parseLong(date) < dateDown) {
+                    segmentDelete.add(index);
+                }
+            }
+            if (index.startsWith(SegmentDurationTable.TABLE + "_2")) {
+                String date = index.split("_")[2];
+                if (Long.parseLong(date) < dateDown) {
+                    segmentDurationDelete.add(index);
+                }
+            }
+        }
+        for (String index : globalDelete) {
+            durationPersistenceDAO.getClient().deleteIndex(index);
+        }
+        for (String index : segmentDelete) {
+            durationPersistenceDAO.getClient().deleteIndex(index);
+        }
+        for (String index : segmentDurationDelete) {
+            durationPersistenceDAO.getClient().deleteIndex(index);
+        }
+
+        for (TableDefine tableDefine : tableDefineList) {
+            tableDefine.initialize();
+            tableDefine.getColumnDefines().forEach(column -> column.getColumnName().useShortName());
+            if (!elasticSearchStorageInstaller.isExists(durationPersistenceDAO.getClient(), tableDefine)) {
+                try {
+                    elasticSearchStorageInstaller.createTable(durationPersistenceDAO.getClient(), tableDefine);
+                } catch (StorageException e) {
+                    logger.error("create index {} fail:{}", tableDefine.getName(), e);
+                }
+            }
+        }
     }
 
     TimeBuckets convertTimeBucket(DateTime currentTime) {
@@ -149,9 +222,9 @@ class DataTTLKeeperTimer {
     }
 
     private void deleteTraceRelatedData(TimeBuckets timeBuckets) {
-        moduleManager.find(StorageModule.NAME).getService(IGlobalTracePersistenceDAO.class).deleteHistory(timeBuckets.traceDataBefore);
-        moduleManager.find(StorageModule.NAME).getService(ISegmentDurationPersistenceDAO.class).deleteHistory(timeBuckets.traceDataBefore);
-        moduleManager.find(StorageModule.NAME).getService(ISegmentPersistenceDAO.class).deleteHistory(timeBuckets.traceDataBefore);
+//        moduleManager.find(StorageModule.NAME).getService(IGlobalTracePersistenceDAO.class).deleteHistory(timeBuckets.traceDataBefore);
+//        moduleManager.find(StorageModule.NAME).getService(ISegmentDurationPersistenceDAO.class).deleteHistory(timeBuckets.traceDataBefore);
+//        moduleManager.find(StorageModule.NAME).getService(ISegmentPersistenceDAO.class).deleteHistory(timeBuckets.traceDataBefore);
 
         moduleManager.find(StorageModule.NAME).getService(IApplicationComponentMinutePersistenceDAO.class).deleteHistory(timeBuckets.minuteTimeBucketBefore);
         moduleManager.find(StorageModule.NAME).getService(IApplicationComponentHourPersistenceDAO.class).deleteHistory(timeBuckets.hourTimeBucketBefore);

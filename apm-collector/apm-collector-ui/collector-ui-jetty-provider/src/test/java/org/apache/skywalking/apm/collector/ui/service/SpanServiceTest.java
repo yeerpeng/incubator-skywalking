@@ -61,7 +61,7 @@ public class SpanServiceTest {
 
     @Test
     public void load() {
-        when(segmentDAO.load(anyString())).then(invocation -> {
+        when(segmentDAO.load(anyString(), null)).then(invocation -> {
             LogMessage message = LogMessage.newBuilder()
                     .setTime(System.currentTimeMillis())
                     .addData(KeyWithStringValue.newBuilder().setKey("a").setValue("b").build())

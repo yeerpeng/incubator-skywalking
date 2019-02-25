@@ -26,7 +26,9 @@ import org.apache.skywalking.apm.collector.core.data.StreamData;
  */
 public interface IPersistenceDAO<INSERT, UPDATE, STREAM_DATA extends StreamData> extends DAO {
 
-    STREAM_DATA get(String id);
+    STREAM_DATA get(String id, String tableSuffix);
+
+    String getTableSuffix(STREAM_DATA data);
 
     INSERT prepareBatchInsert(STREAM_DATA data) throws IOException;
 

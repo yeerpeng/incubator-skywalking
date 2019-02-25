@@ -65,7 +65,12 @@ public class GlobalTraceShardingjdbcPersistenceDAO extends AbstractPersistenceSh
     }
 
     @GraphComputingMetric(name = "/persistence/get/" + GlobalTraceTable.TABLE)
-    @Override public GlobalTrace get(String id) {
-        return super.get(id);
+    @Override public GlobalTrace get(String id, String tableSuffix) {
+        return super.get(id, tableSuffix);
+    }
+
+    @Override
+    public String getTableSuffix(GlobalTrace data) {
+        return "";
     }
 }

@@ -38,4 +38,9 @@ public class InstanceReferenceHourMetricH2PersistenceDAO extends AbstractInstanc
     @Override protected String tableName() {
         return InstanceReferenceMetricTable.TABLE + Const.ID_SPLIT + TimePyramid.Hour.getName();
     }
+
+    @Override
+    public String getTableSuffix(InstanceReferenceMetric data) {
+        return "";
+    }
 }

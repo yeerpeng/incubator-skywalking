@@ -46,7 +46,7 @@ public class GlobalTraceH2UIDAO extends H2DAO implements IGlobalTraceUIDAO {
         super(client);
     }
 
-    @Override public List<String> getGlobalTraceId(String segmentId) {
+    @Override public List<String> getGlobalTraceId(String segmentId, String[] index) {
         List<String> globalTraceIds = new ArrayList<>();
         H2Client client = getClient();
         String sql = SqlBuilder.buildSql(GET_GLOBAL_TRACE_ID_SQL, GlobalTraceTable.TRACE_ID.getName(),
@@ -64,7 +64,7 @@ public class GlobalTraceH2UIDAO extends H2DAO implements IGlobalTraceUIDAO {
         return globalTraceIds;
     }
 
-    @Override public List<String> getSegmentIds(String globalTraceId) {
+    @Override public List<String> getSegmentIds(String globalTraceId, String[] index) {
         List<String> segmentIds = new ArrayList<>();
         H2Client client = getClient();
         String sql = SqlBuilder.buildSql(GET_SEGMENT_IDS_SQL, GlobalTraceTable.SEGMENT_ID.getName(),

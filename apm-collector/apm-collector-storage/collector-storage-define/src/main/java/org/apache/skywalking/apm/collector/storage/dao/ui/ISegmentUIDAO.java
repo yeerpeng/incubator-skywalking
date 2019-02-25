@@ -38,5 +38,5 @@ public interface ISegmentUIDAO extends DAO {
      * @return detail of segment which deserialize into proto buffer object,
      * {@link TraceSegmentObject#parseFrom(byte[])}
      */
-    TraceSegmentObject load(String segmentId);
+    TraceSegmentObject load(String segmentId, String[] index);
 }

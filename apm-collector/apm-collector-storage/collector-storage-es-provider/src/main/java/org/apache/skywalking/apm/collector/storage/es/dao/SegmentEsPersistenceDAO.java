@@ -19,6 +19,7 @@
 package org.apache.skywalking.apm.collector.storage.es.dao;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import org.apache.skywalking.apm.collector.client.elasticsearch.ElasticSearchClient;
 import org.apache.skywalking.apm.collector.core.annotations.trace.GraphComputingMetric;
@@ -28,11 +29,15 @@ import org.apache.skywalking.apm.collector.storage.table.segment.*;
 import org.elasticsearch.action.index.IndexRequestBuilder;
 import org.elasticsearch.action.update.UpdateRequestBuilder;
 import org.elasticsearch.common.xcontent.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author peng-yongsheng
  */
 public class SegmentEsPersistenceDAO extends AbstractPersistenceEsDAO<Segment> implements ISegmentPersistenceDAO<IndexRequestBuilder, UpdateRequestBuilder, Segment> {
+
+    private static final Logger logger = LoggerFactory.getLogger(SegmentEsPersistenceDAO.class);
 
     public SegmentEsPersistenceDAO(ElasticSearchClient client) {
         super(client);
@@ -40,6 +45,21 @@ public class SegmentEsPersistenceDAO extends AbstractPersistenceEsDAO<Segment> i
 
     @Override protected String tableName() {
         return SegmentTable.TABLE;
+    }
+
+    @Override
+    public String getTableSuffix(Segment streamData) {
+        if (streamData == null) {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+            return "_" + formatter.format(new Date());
+        }
+        try {
+            return "_" + (streamData.getTimeBucket() + "").substring(0, 8);
+        } catch (Exception e) {
+            logger.info("get Segment index suffix fail:{}", streamData.getTimeBucket());
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+            return "_" + formatter.format(new Date());
+        }
     }
 
     @Override protected Segment esDataToStreamData(Map<String, Object> source) {
@@ -61,7 +81,7 @@ public class SegmentEsPersistenceDAO extends AbstractPersistenceEsDAO<Segment> i
     }
 
     @GraphComputingMetric(name = "/persistence/get/" + SegmentTable.TABLE)
-    @Override public Segment get(String id) {
-        return super.get(id);
+    @Override public Segment get(String id, String tableSuffix) {
+        return super.get(id, tableSuffix);
     }
 }

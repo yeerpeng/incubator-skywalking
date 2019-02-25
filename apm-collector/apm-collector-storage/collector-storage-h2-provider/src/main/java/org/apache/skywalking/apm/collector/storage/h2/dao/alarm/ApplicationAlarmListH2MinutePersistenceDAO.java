@@ -38,4 +38,9 @@ public class ApplicationAlarmListH2MinutePersistenceDAO extends AbstractApplicat
     @Override protected String tableName() {
         return ApplicationAlarmListTable.TABLE + Const.ID_SPLIT + TimePyramid.Minute.getName();
     }
+
+    @Override
+    public String getTableSuffix(ApplicationAlarmList data) {
+        return "";
+    }
 }

@@ -74,7 +74,7 @@ public class ElasticSearchStorageInstaller extends StorageInstaller {
         }
     }
 
-    @Override protected void createTable(Client client, TableDefine tableDefine) throws StorageException {
+    @Override public void createTable(Client client, TableDefine tableDefine) throws StorageException {
         ElasticSearchClient esClient = (ElasticSearchClient)client;
         ElasticSearchTableDefine esTableDefine = (ElasticSearchTableDefine)tableDefine;
 
@@ -146,7 +146,7 @@ public class ElasticSearchStorageInstaller extends StorageInstaller {
         }
     }
 
-    @Override protected boolean isExists(Client client, TableDefine tableDefine) {
+    @Override public boolean isExists(Client client, TableDefine tableDefine) {
         ElasticSearchClient esClient = (ElasticSearchClient)client;
         return esClient.isExistsIndex(tableDefine.getName());
     }

@@ -77,7 +77,7 @@ public class InstanceReferenceAlarmListEsPersistenceDAO extends AbstractPersiste
     }
 
     @GraphComputingMetric(name = "/persistence/get/" + InstanceReferenceAlarmListTable.TABLE)
-    @Override public InstanceReferenceAlarmList get(String id) {
-        return super.get(id);
+    @Override public InstanceReferenceAlarmList get(String id, String tableSuffix) {
+        return super.get(id, tableSuffix);
     }
 }

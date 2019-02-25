@@ -38,4 +38,9 @@ public class MemoryPoolDayMetricH2PersistenceDAO extends AbstractMemoryPoolMetri
     @Override protected String tableName() {
         return MemoryPoolMetricTable.TABLE + Const.ID_SPLIT + TimePyramid.Day.getName();
     }
+
+    @Override
+    public String getTableSuffix(MemoryPoolMetric data) {
+        return "";
+    }
 }

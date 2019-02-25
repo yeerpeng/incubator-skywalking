@@ -65,7 +65,7 @@ public abstract class AbstractApplicationMappingShardingjdbcPersistenceDAO exten
     }
     
     @GraphComputingMetric(name = "/persistence/get/" + ApplicationMappingTable.TABLE)
-    @Override public final ApplicationMapping get(String id) {
-        return super.get(id);
+    @Override public final ApplicationMapping get(String id, String tableSuffix) {
+        return super.get(id, tableSuffix);
     }
 }

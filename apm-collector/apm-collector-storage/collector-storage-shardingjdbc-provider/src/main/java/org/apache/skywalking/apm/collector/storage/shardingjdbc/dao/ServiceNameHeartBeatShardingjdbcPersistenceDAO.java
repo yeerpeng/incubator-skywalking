@@ -54,7 +54,7 @@ public class ServiceNameHeartBeatShardingjdbcPersistenceDAO extends Shardingjdbc
     private static final String GET_SERVICENAME_HEARTBEAT_SQL = "select * from {0} where {1} = ?";
     
     @GraphComputingMetric(name = "/persistence/get/" + ServiceNameTable.TABLE + "/heartbeat")
-    @Override public ServiceName get(String id) {
+    @Override public ServiceName get(String id, String tableSuffix) {
         ShardingjdbcClient client = getClient();
         String sql = SqlBuilder.buildSql(GET_SERVICENAME_HEARTBEAT_SQL, ServiceNameTable.TABLE, ServiceNameTable.SERVICE_ID.getName());
         Object[] params = new Object[] {id};
@@ -74,6 +74,11 @@ public class ServiceNameHeartBeatShardingjdbcPersistenceDAO extends Shardingjdbc
             logger.error(e.getMessage(), e);
         }
         return null;
+    }
+
+    @Override
+    public String getTableSuffix(ServiceName data) {
+        return "";
     }
 
     @Override public ShardingjdbcSqlEntity prepareBatchInsert(ServiceName data) {

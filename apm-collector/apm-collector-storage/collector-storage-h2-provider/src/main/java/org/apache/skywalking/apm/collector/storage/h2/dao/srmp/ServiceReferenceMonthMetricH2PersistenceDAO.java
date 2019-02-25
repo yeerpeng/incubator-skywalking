@@ -38,4 +38,9 @@ public class ServiceReferenceMonthMetricH2PersistenceDAO extends AbstractService
     @Override protected String tableName() {
         return ServiceReferenceMetricTable.TABLE + Const.ID_SPLIT + TimePyramid.Month.getName();
     }
+
+    @Override
+    public String getTableSuffix(ServiceReferenceMetric data) {
+        return "";
+    }
 }

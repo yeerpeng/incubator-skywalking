@@ -20,6 +20,9 @@ package org.apache.skywalking.apm.collector.ui.service;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import org.apache.skywalking.apm.collector.cache.CacheModule;
 import org.apache.skywalking.apm.collector.cache.service.ApplicationCacheService;
@@ -31,15 +34,21 @@ import org.apache.skywalking.apm.collector.core.util.StringUtils;
 import org.apache.skywalking.apm.collector.storage.StorageModule;
 import org.apache.skywalking.apm.collector.storage.dao.ui.ISegmentUIDAO;
 import org.apache.skywalking.apm.collector.storage.table.register.ServiceName;
+import org.apache.skywalking.apm.collector.storage.table.segment.SegmentTable;
+import org.apache.skywalking.apm.collector.ui.utils.EsIndexSuffixUtil;
 import org.apache.skywalking.apm.network.proto.KeyWithStringValue;
 import org.apache.skywalking.apm.network.proto.LogMessage;
 import org.apache.skywalking.apm.network.proto.SpanObject;
 import org.apache.skywalking.apm.network.proto.TraceSegmentObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author peng-yongsheng
  */
 public class SpanService {
+
+    private static final Logger logger = LoggerFactory.getLogger(SpanService.class);
 
     private final ISegmentUIDAO segmentDAO;
     private final ServiceNameCacheService serviceNameCacheService;
@@ -54,7 +63,12 @@ public class SpanService {
     }
 
     public JsonObject load(String segmentId, int spanId) {
-        TraceSegmentObject segmentObject = segmentDAO.load(segmentId);
+        String[] ids = segmentId.split(".");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+        String time = formatter.format(new Date(Long.parseLong(ids[2])));
+        logger.info("SpanService load:{},time:{}", segmentId, time);
+        String[] segmentIndex = EsIndexSuffixUtil.getEsIndexByDate(SegmentTable.TABLE, Long.parseLong(time), Long.parseLong(time));
+        TraceSegmentObject segmentObject = segmentDAO.load(segmentId, segmentIndex);
 
         JsonObject spanJson = new JsonObject();
         List<SpanObject> spans = segmentObject.getSpansList();

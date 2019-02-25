@@ -40,7 +40,7 @@ public interface IGlobalTraceUIDAO extends DAO {
      * @param segmentId argument to bind to the query
      * @return not nullable result list containing global trace ids.
      */
-    List<String> getGlobalTraceId(String segmentId);
+    List<String> getGlobalTraceId(String segmentId, String[] index);
 
     /**
      * Returns segment ids by query operation with given global trace id.
@@ -49,5 +49,5 @@ public interface IGlobalTraceUIDAO extends DAO {
      * @param globalTraceId argument to bind to the query
      * @return not nullable result list containing segment ids.
      */
-    List<String> getSegmentIds(String globalTraceId);
+    List<String> getSegmentIds(String globalTraceId, String[] index);
 }

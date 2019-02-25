@@ -71,7 +71,7 @@ public class ApplicationAlarmEsPersistenceDAO extends AbstractPersistenceEsDAO<A
     }
 
     @GraphComputingMetric(name = "/persistence/get/" + ApplicationAlarmTable.TABLE)
-    @Override public ApplicationAlarm get(String id) {
-        return super.get(id);
+    @Override public ApplicationAlarm get(String id, String tableSuffix) {
+        return super.get(id, tableSuffix);
     }
 }

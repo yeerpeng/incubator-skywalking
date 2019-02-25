@@ -71,7 +71,7 @@ public abstract class AbstractServiceMetricShardingjdbcPersistenceDAO extends Ab
     }
     
     @GraphComputingMetric(name = "/persistence/get/" + ServiceMetricTable.TABLE)
-    @Override public final ServiceMetric get(String id) {
-        return super.get(id);
+    @Override public final ServiceMetric get(String id, String tableSuffix) {
+        return super.get(id, tableSuffix);
     }
 }

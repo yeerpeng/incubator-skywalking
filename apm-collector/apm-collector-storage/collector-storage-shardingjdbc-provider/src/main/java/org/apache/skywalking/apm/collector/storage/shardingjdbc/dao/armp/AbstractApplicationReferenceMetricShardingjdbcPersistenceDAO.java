@@ -77,7 +77,7 @@ public abstract class AbstractApplicationReferenceMetricShardingjdbcPersistenceD
     }
     
     @GraphComputingMetric(name = "/persistence/get/" + ApplicationReferenceMetricTable.TABLE)
-    @Override public final ApplicationReferenceMetric get(String id) {
-        return super.get(id);
+    @Override public final ApplicationReferenceMetric get(String id, String tableSuffix) {
+        return super.get(id, tableSuffix);
     }
 }

@@ -76,4 +76,9 @@ public class InstanceReferenceAlarmListH2PersistenceDAO extends AbstractPersiste
 
         return target;
     }
+
+    @Override
+    public String getTableSuffix(InstanceReferenceAlarmList data) {
+        return "";
+    }
 }

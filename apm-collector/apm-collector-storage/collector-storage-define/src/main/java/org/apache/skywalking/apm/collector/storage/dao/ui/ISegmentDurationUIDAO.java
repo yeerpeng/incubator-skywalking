@@ -56,6 +56,6 @@ public interface ISegmentDurationUIDAO extends DAO {
      * @param segmentIds mutual exclusion on other condition
      * @return not nullable result list
      */
-    TraceBrief loadTop(long startSecondTimeBucket, long endSecondTimeBucket, long minDuration, long maxDuration,
+    TraceBrief loadTop(String[] index, long startSecondTimeBucket, long endSecondTimeBucket, long minDuration, long maxDuration,
                        String operationName, int applicationId, int limit, int from, TraceState traceState, QueryOrder queryOrder, String... segmentIds);
 }

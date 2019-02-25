@@ -38,4 +38,9 @@ public class InstanceHourMetricShardingjdbcPersistenceDAO extends AbstractInstan
     @Override protected String tableName() {
         return InstanceMetricTable.TABLE + Const.ID_SPLIT + TimePyramid.Hour.getName();
     }
+
+    @Override
+    public String getTableSuffix(InstanceMetric data) {
+        return "";
+    }
 }

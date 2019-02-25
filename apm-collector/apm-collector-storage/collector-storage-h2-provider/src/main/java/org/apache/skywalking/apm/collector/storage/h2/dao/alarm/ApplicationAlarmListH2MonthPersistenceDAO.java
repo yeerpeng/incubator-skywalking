@@ -38,4 +38,9 @@ public class ApplicationAlarmListH2MonthPersistenceDAO extends AbstractApplicati
     @Override protected String tableName() {
         return ApplicationAlarmListTable.TABLE + Const.ID_SPLIT + TimePyramid.Month.getName();
     }
+
+    @Override
+    public String getTableSuffix(ApplicationAlarmList data) {
+        return "";
+    }
 }

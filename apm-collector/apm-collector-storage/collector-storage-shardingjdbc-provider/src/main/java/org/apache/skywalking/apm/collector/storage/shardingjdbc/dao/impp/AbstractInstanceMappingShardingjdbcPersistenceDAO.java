@@ -67,7 +67,7 @@ public abstract class AbstractInstanceMappingShardingjdbcPersistenceDAO extends 
     }
     
     @GraphComputingMetric(name = "/persistence/get/" + InstanceMappingTable.TABLE)
-    @Override public final InstanceMapping get(String id) {
-        return super.get(id);
+    @Override public final InstanceMapping get(String id, String tableSuffix) {
+        return super.get(id, tableSuffix);
     }
 }

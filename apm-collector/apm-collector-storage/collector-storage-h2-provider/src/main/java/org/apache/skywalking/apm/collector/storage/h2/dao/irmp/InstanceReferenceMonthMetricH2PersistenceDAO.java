@@ -38,4 +38,9 @@ public class InstanceReferenceMonthMetricH2PersistenceDAO extends AbstractInstan
     @Override protected String tableName() {
         return InstanceReferenceMetricTable.TABLE + Const.ID_SPLIT + TimePyramid.Month.getName();
     }
+
+    @Override
+    public String getTableSuffix(InstanceReferenceMetric data) {
+        return "";
+    }
 }

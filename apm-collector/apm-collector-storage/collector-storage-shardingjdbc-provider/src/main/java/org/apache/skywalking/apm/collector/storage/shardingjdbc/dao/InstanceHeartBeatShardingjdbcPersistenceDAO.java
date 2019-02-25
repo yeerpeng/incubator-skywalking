@@ -42,7 +42,7 @@ public class InstanceHeartBeatShardingjdbcPersistenceDAO extends ShardingjdbcDAO
 
     private static final String GET_INSTANCE_HEARTBEAT_SQL = "select * from {0} where {1} = ?";
 
-    @Override public Instance get(String id) {
+    @Override public Instance get(String id, String tableSuffix) {
         ShardingjdbcClient client = getClient();
         String sql = SqlBuilder.buildSql(GET_INSTANCE_HEARTBEAT_SQL, InstanceTable.TABLE, InstanceTable.INSTANCE_ID.getName());
         Object[] params = new Object[] {id};
@@ -62,6 +62,11 @@ public class InstanceHeartBeatShardingjdbcPersistenceDAO extends ShardingjdbcDAO
             logger.error(e.getMessage(), e);
         }
         return null;
+    }
+
+    @Override
+    public String getTableSuffix(Instance data) {
+        return "";
     }
 
     @Override public ShardingjdbcSqlEntity prepareBatchInsert(Instance data) {

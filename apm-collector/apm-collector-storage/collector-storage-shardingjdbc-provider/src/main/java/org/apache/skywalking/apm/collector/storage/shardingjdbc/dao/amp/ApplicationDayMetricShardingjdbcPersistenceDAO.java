@@ -38,4 +38,9 @@ public class ApplicationDayMetricShardingjdbcPersistenceDAO extends AbstractAppl
     @Override protected String tableName() {
         return ApplicationMetricTable.TABLE + Const.ID_SPLIT + TimePyramid.Day.getName();
     }
+
+    @Override
+    public String getTableSuffix(ApplicationMetric data) {
+        return "";
+    }
 }

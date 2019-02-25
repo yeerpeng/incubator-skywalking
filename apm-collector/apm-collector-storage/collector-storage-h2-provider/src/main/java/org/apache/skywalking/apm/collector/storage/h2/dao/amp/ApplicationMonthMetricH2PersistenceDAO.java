@@ -38,4 +38,9 @@ public class ApplicationMonthMetricH2PersistenceDAO extends AbstractApplicationM
     @Override protected String tableName() {
         return ApplicationMetricTable.TABLE + Const.ID_SPLIT + TimePyramid.Month.getName();
     }
+
+    @Override
+    public String getTableSuffix(ApplicationMetric data) {
+        return "";
+    }
 }

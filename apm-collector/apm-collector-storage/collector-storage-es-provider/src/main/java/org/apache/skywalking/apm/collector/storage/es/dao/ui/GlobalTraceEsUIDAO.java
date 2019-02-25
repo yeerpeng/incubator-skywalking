@@ -27,6 +27,7 @@ import org.apache.skywalking.apm.collector.storage.table.global.GlobalTraceTable
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
+import org.elasticsearch.action.support.IndicesOptions;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.slf4j.Logger;
@@ -43,8 +44,9 @@ public class GlobalTraceEsUIDAO extends EsDAO implements IGlobalTraceUIDAO {
         super(client);
     }
 
-    @Override public List<String> getGlobalTraceId(String segmentId) {
-        SearchRequestBuilder searchRequestBuilder = getClient().prepareSearch(GlobalTraceTable.TABLE);
+    @Override public List<String> getGlobalTraceId(String segmentId, String[] index) {
+        SearchRequestBuilder searchRequestBuilder = getClient().prepareSearch(index)
+                .setIndicesOptions(IndicesOptions.fromOptions(true, true, true, false));
         searchRequestBuilder.setTypes(GlobalTraceTable.TABLE_TYPE);
         searchRequestBuilder.setSearchType(SearchType.DFS_QUERY_THEN_FETCH);
         searchRequestBuilder.setQuery(QueryBuilders.termQuery(GlobalTraceTable.SEGMENT_ID.getName(), segmentId));
@@ -62,8 +64,9 @@ public class GlobalTraceEsUIDAO extends EsDAO implements IGlobalTraceUIDAO {
         return globalTraceIds;
     }
 
-    @Override public List<String> getSegmentIds(String globalTraceId) {
-        SearchRequestBuilder searchRequestBuilder = getClient().prepareSearch(GlobalTraceTable.TABLE);
+    @Override public List<String> getSegmentIds(String globalTraceId, String[] index) {
+        SearchRequestBuilder searchRequestBuilder = getClient().prepareSearch(index)
+                .setIndicesOptions(IndicesOptions.fromOptions(true, true, true, false));
         searchRequestBuilder.setTypes(GlobalTraceTable.TABLE_TYPE);
         searchRequestBuilder.setSearchType(SearchType.DFS_QUERY_THEN_FETCH);
         searchRequestBuilder.setQuery(QueryBuilders.termQuery(GlobalTraceTable.TRACE_ID.getName(), globalTraceId));

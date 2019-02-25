@@ -19,6 +19,9 @@
 package org.apache.skywalking.apm.collector.storage.es.dao;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.apache.skywalking.apm.collector.client.elasticsearch.ElasticSearchClient;
 import org.apache.skywalking.apm.collector.storage.dao.ISegmentDurationPersistenceDAO;
 import org.apache.skywalking.apm.collector.storage.es.base.dao.EsDAO;
@@ -42,8 +45,23 @@ public class SegmentDurationEsPersistenceDAO extends EsDAO implements ISegmentDu
     }
 
     @Override
-    public SegmentDuration get(String id) {
+    public SegmentDuration get(String id, String tableSuffix) {
         return null;
+    }
+
+    @Override
+    public String getTableSuffix(SegmentDuration data) {
+        if (data == null) {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+            return "_" + formatter.format(new Date());
+        }
+        try {
+            return "_" + data.getTimeBucket().toString().substring(0, 8);
+        } catch (Exception e) {
+            logger.info("get SegmentDuration index suffix fail:{}",data.getTimeBucket());
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+            return "_" + formatter.format(new Date());
+        }
     }
 
     @Override
@@ -64,7 +82,7 @@ public class SegmentDurationEsPersistenceDAO extends EsDAO implements ISegmentDu
             .field(SegmentDurationTable.TIME_BUCKET.getName(), data.getTimeBucket())
             .endObject();
 
-        return getClient().prepareIndex(SegmentDurationTable.TABLE, data.getId()).setSource(target);
+        return getClient().prepareIndex(SegmentDurationTable.TABLE + getTableSuffix(data), data.getId()).setSource(target);
     }
 
     @Override public void deleteHistory(Long timeBucketBefore) {

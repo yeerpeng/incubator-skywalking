@@ -38,4 +38,9 @@ public class MemoryMinuteMetricH2PersistenceDAO extends AbstractMemoryMetricH2Pe
     @Override protected String tableName() {
         return MemoryMetricTable.TABLE + Const.ID_SPLIT + TimePyramid.Minute.getName();
     }
+
+    @Override
+    public String getTableSuffix(MemoryMetric data) {
+        return "";
+    }
 }

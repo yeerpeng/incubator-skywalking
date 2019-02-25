@@ -38,4 +38,9 @@ public class ApplicationMappingHourH2PersistenceDAO extends AbstractApplicationM
     @Override protected String tableName() {
         return ApplicationMappingTable.TABLE + Const.ID_SPLIT + TimePyramid.Hour.getName();
     }
+
+    @Override
+    public String getTableSuffix(ApplicationMapping data) {
+        return "";
+    }
 }

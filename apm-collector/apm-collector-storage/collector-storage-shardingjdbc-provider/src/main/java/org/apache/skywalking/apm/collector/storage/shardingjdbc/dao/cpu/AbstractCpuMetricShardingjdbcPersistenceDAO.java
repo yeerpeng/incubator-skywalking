@@ -69,7 +69,7 @@ public abstract class AbstractCpuMetricShardingjdbcPersistenceDAO extends Abstra
     }
     
     @GraphComputingMetric(name = "/persistence/get/" + CpuMetricTable.TABLE)
-    @Override public final CpuMetric get(String id) {
-        return super.get(id);
+    @Override public final CpuMetric get(String id, String tableSuffix) {
+        return super.get(id, tableSuffix);
     }
 }

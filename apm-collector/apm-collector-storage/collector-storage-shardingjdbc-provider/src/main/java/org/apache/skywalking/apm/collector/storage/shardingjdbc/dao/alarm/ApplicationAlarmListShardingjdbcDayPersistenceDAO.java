@@ -38,4 +38,9 @@ public class ApplicationAlarmListShardingjdbcDayPersistenceDAO extends AbstractA
     @Override protected String tableName() {
         return ApplicationAlarmListTable.TABLE + Const.ID_SPLIT + TimePyramid.Day.getName();
     }
+
+    @Override
+    public String getTableSuffix(ApplicationAlarmList data) {
+        return "";
+    }
 }

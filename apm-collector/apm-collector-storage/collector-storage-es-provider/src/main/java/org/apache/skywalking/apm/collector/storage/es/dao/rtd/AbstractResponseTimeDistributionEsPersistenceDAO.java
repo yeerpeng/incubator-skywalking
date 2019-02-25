@@ -69,7 +69,7 @@ public abstract class AbstractResponseTimeDistributionEsPersistenceDAO extends A
     }
 
     @GraphComputingMetric(name = "/persistence/get/" + ResponseTimeDistributionTable.TABLE)
-    @Override public final ResponseTimeDistribution get(String id) {
-        return super.get(id);
+    @Override public final ResponseTimeDistribution get(String id, String tableSuffix) {
+        return super.get(id, tableSuffix);
     }
 }

@@ -38,8 +38,13 @@ public class SegmentH2PersistenceDAO extends H2DAO implements ISegmentPersistenc
         super(client);
     }
 
-    @Override public Segment get(String id) {
+    @Override public Segment get(String id, String tableSuffix) {
         return null;
+    }
+
+    @Override
+    public String getTableSuffix(Segment data) {
+        return "";
     }
 
     @Override public H2SqlEntity prepareBatchInsert(Segment data) {

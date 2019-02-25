@@ -50,7 +50,7 @@ public abstract class AbstractPersistenceH2DAO<STREAM_DATA extends StreamData> e
 
     protected abstract String tableName();
 
-    @Override public final STREAM_DATA get(String id) {
+    @Override public final STREAM_DATA get(String id, String tableSuffix) {
         String sql = SqlBuilder.buildSql(GET_SQL, tableName(), CommonTable.ID.getName());
 
         Object[] params = new Object[] {id};

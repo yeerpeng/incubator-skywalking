@@ -38,4 +38,9 @@ public class GCDayMetricH2PersistenceDAO extends AbstractGCMetricH2PersistenceDA
     @Override protected String tableName() {
         return GCMetricTable.TABLE + Const.ID_SPLIT + TimePyramid.Day.getName();
     }
+
+    @Override
+    public String getTableSuffix(GCMetric data) {
+        return "";
+    }
 }

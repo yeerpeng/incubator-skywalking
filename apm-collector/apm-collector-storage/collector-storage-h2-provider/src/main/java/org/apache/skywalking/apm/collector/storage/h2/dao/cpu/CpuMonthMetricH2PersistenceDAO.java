@@ -38,4 +38,9 @@ public class CpuMonthMetricH2PersistenceDAO extends AbstractCpuMetricH2Persisten
     @Override protected String tableName() {
         return CpuMetricTable.TABLE + Const.ID_SPLIT + TimePyramid.Month.getName();
     }
+
+    @Override
+    public String getTableSuffix(CpuMetric data) {
+        return "";
+    }
 }

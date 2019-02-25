@@ -38,4 +38,9 @@ public class CpuDayMetricH2PersistenceDAO extends AbstractCpuMetricH2Persistence
     @Override protected String tableName() {
         return CpuMetricTable.TABLE + Const.ID_SPLIT + TimePyramid.Day.getName();
     }
+
+    @Override
+    public String getTableSuffix(CpuMetric data) {
+        return "";
+    }
 }

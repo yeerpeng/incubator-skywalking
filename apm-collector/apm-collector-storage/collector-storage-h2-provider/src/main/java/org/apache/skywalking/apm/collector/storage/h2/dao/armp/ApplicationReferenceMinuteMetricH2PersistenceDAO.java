@@ -38,4 +38,9 @@ public class ApplicationReferenceMinuteMetricH2PersistenceDAO extends AbstractAp
     @Override protected String tableName() {
         return ApplicationReferenceMetricTable.TABLE + Const.ID_SPLIT + TimePyramid.Minute.getName();
     }
+
+    @Override
+    public String getTableSuffix(ApplicationReferenceMetric data) {
+        return "";
+    }
 }

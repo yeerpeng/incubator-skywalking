@@ -64,7 +64,12 @@ public class SegmentShardingjdbcPersistenceDAO extends AbstractPersistenceShardi
     }
 
     @GraphComputingMetric(name = "/persistence/get/" + SegmentTable.TABLE)
-    @Override public Segment get(String id) {
-        return super.get(id);
+    @Override public Segment get(String id, String tableSuffix) {
+        return super.get(id, tableSuffix);
+    }
+
+    @Override
+    public String getTableSuffix(Segment data) {
+        return "";
     }
 }

@@ -47,8 +47,8 @@ public abstract class AbstractPersistenceEsDAO<STREAM_DATA extends StreamData> e
     protected abstract String tableName();
 
     @Override
-    public STREAM_DATA get(String id) {
-        GetResponse getResponse = getClient().prepareGet(tableName(), id).get();
+    public STREAM_DATA get(String id, String tableSuffix) {
+        GetResponse getResponse = getClient().prepareGet(tableName() + tableSuffix, id).get();
         if (getResponse.isExists()) {
             STREAM_DATA streamData = esDataToStreamData(getResponse.getSource());
             streamData.setId(id);
@@ -58,18 +58,22 @@ public abstract class AbstractPersistenceEsDAO<STREAM_DATA extends StreamData> e
         }
     }
 
+    public String getTableSuffix(STREAM_DATA streamData) {
+        return "";
+    }
+
     protected abstract XContentBuilder esStreamDataToEsData(STREAM_DATA streamData) throws IOException;
 
     @Override
     public final IndexRequestBuilder prepareBatchInsert(STREAM_DATA streamData) throws IOException {
         XContentBuilder source = esStreamDataToEsData(streamData);
-        return getClient().prepareIndex(tableName(), streamData.getId()).setSource(source);
+        return getClient().prepareIndex(tableName() + getTableSuffix(streamData), streamData.getId()).setSource(source);
     }
 
     @Override
     public final UpdateRequestBuilder prepareBatchUpdate(STREAM_DATA streamData) throws IOException {
         XContentBuilder source = esStreamDataToEsData(streamData);
-        return getClient().prepareUpdate(tableName(), streamData.getId()).setDoc(source);
+        return getClient().prepareUpdate(tableName() + getTableSuffix(streamData), streamData.getId()).setDoc(source);
     }
 
     protected abstract String timeBucketColumnNameForDelete();

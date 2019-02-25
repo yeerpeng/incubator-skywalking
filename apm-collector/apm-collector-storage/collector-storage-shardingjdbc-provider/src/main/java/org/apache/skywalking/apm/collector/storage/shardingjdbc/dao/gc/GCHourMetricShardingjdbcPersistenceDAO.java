@@ -38,4 +38,9 @@ public class GCHourMetricShardingjdbcPersistenceDAO extends AbstractGCMetricShar
     @Override protected String tableName() {
         return GCMetricTable.TABLE + Const.ID_SPLIT + TimePyramid.Hour.getName();
     }
+
+    @Override
+    public String getTableSuffix(GCMetric data) {
+        return "";
+    }
 }

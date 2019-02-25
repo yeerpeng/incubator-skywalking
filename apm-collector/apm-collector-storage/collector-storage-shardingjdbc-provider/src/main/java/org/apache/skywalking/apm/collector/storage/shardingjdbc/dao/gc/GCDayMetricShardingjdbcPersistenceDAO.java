@@ -38,4 +38,9 @@ public class GCDayMetricShardingjdbcPersistenceDAO extends AbstractGCMetricShard
     @Override protected String tableName() {
         return GCMetricTable.TABLE + Const.ID_SPLIT + TimePyramid.Day.getName();
     }
+
+    @Override
+    public String getTableSuffix(GCMetric data) {
+        return "";
+    }
 }

@@ -76,6 +76,10 @@ public class ElasticSearchClient implements Client {
         this.namespace = namespace;
     }
 
+    public org.elasticsearch.client.Client getClient() {
+        return client;
+    }
+
     @Override
     public void initialize() throws ClientException {
         Settings settings = Settings.builder()
@@ -84,7 +88,6 @@ public class ElasticSearchClient implements Client {
             .build();
 
         client = new PreBuiltTransportClient(settings);
-
         List<AddressPairs> pairsList = parseClusterNodes(clusterNodes);
         for (AddressPairs pairs : pairsList) {
             try {
@@ -148,6 +151,10 @@ public class ElasticSearchClient implements Client {
 
     public SearchRequestBuilder prepareSearch(String indexName) {
         indexName = formatIndexName(indexName);
+        return client.prepareSearch(indexName);
+    }
+
+    public SearchRequestBuilder prepareSearch(String[] indexName) {
         return client.prepareSearch(indexName);
     }
 

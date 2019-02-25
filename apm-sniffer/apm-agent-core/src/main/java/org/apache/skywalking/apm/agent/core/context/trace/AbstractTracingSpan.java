@@ -49,6 +49,8 @@ public abstract class AbstractTracingSpan implements AbstractSpan {
      * The end time of this Span.
      */
     protected long endTime;
+
+    private long startNona;
     /**
      * Error has occurred in the scope of span.
      */
@@ -105,7 +107,7 @@ public abstract class AbstractTracingSpan implements AbstractSpan {
      * @param owner of the Span.
      */
     public boolean finish(TraceSegment owner) {
-        this.endTime = System.currentTimeMillis();
+        this.endTime = this.startTime + (System.nanoTime() - this.startNona) / 1000000;
         owner.archive(this);
         return true;
     }
@@ -113,6 +115,7 @@ public abstract class AbstractTracingSpan implements AbstractSpan {
     @Override
     public AbstractTracingSpan start() {
         this.startTime = System.currentTimeMillis();
+        this.startNona = System.nanoTime();
         return this;
     }
 
@@ -242,6 +245,7 @@ public abstract class AbstractTracingSpan implements AbstractSpan {
     @Override
     public AbstractSpan start(long startTime) {
         this.startTime = startTime;
+        this.startNona = startTime * 1000000;
         return this;
     }
 

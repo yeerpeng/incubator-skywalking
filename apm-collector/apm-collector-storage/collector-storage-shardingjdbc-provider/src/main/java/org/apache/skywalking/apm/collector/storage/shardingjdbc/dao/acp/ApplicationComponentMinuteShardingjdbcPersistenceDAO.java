@@ -38,4 +38,9 @@ public class ApplicationComponentMinuteShardingjdbcPersistenceDAO extends Abstra
     @Override protected String tableName() {
         return ApplicationComponentTable.TABLE + Const.ID_SPLIT + TimePyramid.Minute.getName();
     }
+
+    @Override
+    public String getTableSuffix(ApplicationComponent data) {
+        return "";
+    }
 }

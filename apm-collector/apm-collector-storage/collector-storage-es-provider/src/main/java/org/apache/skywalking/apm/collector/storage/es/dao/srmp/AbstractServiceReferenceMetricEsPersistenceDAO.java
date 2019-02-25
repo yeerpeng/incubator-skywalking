@@ -74,7 +74,7 @@ public abstract class AbstractServiceReferenceMetricEsPersistenceDAO extends Abs
     }
 
     @GraphComputingMetric(name = "/persistence/get/" + ServiceReferenceMetricTable.TABLE)
-    @Override public final ServiceReferenceMetric get(String id) {
-        return super.get(id);
+    @Override public final ServiceReferenceMetric get(String id, String tableSuffix) {
+        return super.get(id, tableSuffix);
     }
 }

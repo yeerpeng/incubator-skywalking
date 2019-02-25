@@ -74,4 +74,9 @@ public class ServiceAlarmH2PersistenceDAO extends AbstractPersistenceH2DAO<Servi
 
         return target;
     }
+
+    @Override
+    public String getTableSuffix(ServiceAlarm data) {
+        return "";
+    }
 }

@@ -38,4 +38,9 @@ public class ServiceReferenceMinuteMetricShardingjdbcPersistenceDAO extends Abst
     @Override protected String tableName() {
         return ServiceReferenceMetricTable.TABLE + Const.ID_SPLIT + TimePyramid.Minute.getName();
     }
+
+    @Override
+    public String getTableSuffix(ServiceReferenceMetric data) {
+        return "";
+    }
 }

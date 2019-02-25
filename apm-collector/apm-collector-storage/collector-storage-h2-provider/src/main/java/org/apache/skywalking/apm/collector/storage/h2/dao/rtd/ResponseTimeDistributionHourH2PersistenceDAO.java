@@ -38,4 +38,9 @@ public class ResponseTimeDistributionHourH2PersistenceDAO extends AbstractRespon
     @Override protected String tableName() {
         return ResponseTimeDistributionTable.TABLE + Const.ID_SPLIT + TimePyramid.Hour.getName();
     }
+
+    @Override
+    public String getTableSuffix(ResponseTimeDistribution data) {
+        return "";
+    }
 }

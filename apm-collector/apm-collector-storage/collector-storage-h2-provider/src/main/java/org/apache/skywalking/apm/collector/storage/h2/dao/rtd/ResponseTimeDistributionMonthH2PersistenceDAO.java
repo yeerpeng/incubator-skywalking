@@ -38,4 +38,9 @@ public class ResponseTimeDistributionMonthH2PersistenceDAO extends AbstractRespo
     @Override protected String tableName() {
         return ResponseTimeDistributionTable.TABLE + Const.ID_SPLIT + TimePyramid.Month.getName();
     }
+
+    @Override
+    public String getTableSuffix(ResponseTimeDistribution data) {
+        return "";
+    }
 }

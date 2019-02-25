@@ -38,4 +38,9 @@ public class GCMonthMetricH2PersistenceDAO extends AbstractGCMetricH2Persistence
     @Override protected String tableName() {
         return GCMetricTable.TABLE + Const.ID_SPLIT + TimePyramid.Month.getName();
     }
+
+    @Override
+    public String getTableSuffix(GCMetric data) {
+        return "";
+    }
 }

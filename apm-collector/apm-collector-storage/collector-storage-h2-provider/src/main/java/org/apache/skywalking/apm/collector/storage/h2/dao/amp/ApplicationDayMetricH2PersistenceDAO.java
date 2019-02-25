@@ -38,4 +38,9 @@ public class ApplicationDayMetricH2PersistenceDAO extends AbstractApplicationMet
     @Override protected String tableName() {
         return ApplicationMetricTable.TABLE + Const.ID_SPLIT + TimePyramid.Day.getName();
     }
+
+    @Override
+    public String getTableSuffix(ApplicationMetric data) {
+        return "";
+    }
 }

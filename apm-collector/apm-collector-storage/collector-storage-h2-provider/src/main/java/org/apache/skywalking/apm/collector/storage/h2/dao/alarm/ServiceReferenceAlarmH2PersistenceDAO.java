@@ -80,4 +80,9 @@ public class ServiceReferenceAlarmH2PersistenceDAO extends AbstractPersistenceH2
 
         return target;
     }
+
+    @Override
+    public String getTableSuffix(ServiceReferenceAlarm data) {
+        return "";
+    }
 }

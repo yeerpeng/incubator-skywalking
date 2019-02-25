@@ -42,8 +42,13 @@ public class GlobalTraceH2PersistenceDAO extends H2DAO implements IGlobalTracePe
         super(client);
     }
 
-    @Override public GlobalTrace get(String id) {
+    @Override public GlobalTrace get(String id, String tableSuffix) {
         throw new UnexpectedException("There is no need to merge stream data with database data.");
+    }
+
+    @Override
+    public String getTableSuffix(GlobalTrace data) {
+        return "";
     }
 
     @Override public H2SqlEntity prepareBatchUpdate(GlobalTrace data) {

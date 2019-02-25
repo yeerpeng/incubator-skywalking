@@ -43,7 +43,7 @@ public class SegmentH2UIDAO extends H2DAO implements ISegmentUIDAO {
         super(client);
     }
 
-    @Override public TraceSegmentObject load(String segmentId) {
+    @Override public TraceSegmentObject load(String segmentId, String[] index) {
         H2Client client = getClient();
         String sql = SqlBuilder.buildSql(GET_SEGMENT_SQL, SegmentTable.DATA_BINARY.getName(),
             SegmentTable.TABLE, SegmentTable.ID.getName());

@@ -53,7 +53,7 @@ public abstract class AbstractPersistenceShardingjdbcDAO<STREAM_DATA extends Str
 
     protected abstract String tableName();
 
-    @Override public STREAM_DATA get(String id) {
+    @Override public STREAM_DATA get(String id, String tableSuffix) {
         String sql = SqlBuilder.buildSql(GET_SQL, tableName(), CommonTable.ID.getName());
 
         Object[] params = new Object[] {id};

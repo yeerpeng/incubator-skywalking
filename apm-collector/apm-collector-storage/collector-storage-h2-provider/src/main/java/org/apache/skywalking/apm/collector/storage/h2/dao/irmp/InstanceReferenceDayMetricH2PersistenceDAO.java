@@ -38,4 +38,9 @@ public class InstanceReferenceDayMetricH2PersistenceDAO extends AbstractInstance
     @Override protected String tableName() {
         return InstanceReferenceMetricTable.TABLE + Const.ID_SPLIT + TimePyramid.Day.getName();
     }
+
+    @Override
+    public String getTableSuffix(InstanceReferenceMetric data) {
+        return "";
+    }
 }

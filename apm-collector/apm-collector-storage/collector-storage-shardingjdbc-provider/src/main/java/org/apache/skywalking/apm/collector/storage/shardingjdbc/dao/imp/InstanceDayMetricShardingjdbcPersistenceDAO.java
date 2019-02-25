@@ -38,4 +38,9 @@ public class InstanceDayMetricShardingjdbcPersistenceDAO extends AbstractInstanc
     @Override protected String tableName() {
         return InstanceMetricTable.TABLE + Const.ID_SPLIT + TimePyramid.Day.getName();
     }
+
+    @Override
+    public String getTableSuffix(InstanceMetric data) {
+        return "";
+    }
 }

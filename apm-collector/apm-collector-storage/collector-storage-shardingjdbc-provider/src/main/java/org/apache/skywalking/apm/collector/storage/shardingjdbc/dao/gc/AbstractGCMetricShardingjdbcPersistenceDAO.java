@@ -71,7 +71,7 @@ public abstract class AbstractGCMetricShardingjdbcPersistenceDAO extends Abstrac
     }
     
     @GraphComputingMetric(name = "/persistence/get/" + GCMetricTable.TABLE)
-    @Override public final GCMetric get(String id) {
-        return super.get(id);
+    @Override public final GCMetric get(String id, String tableSuffix) {
+        return super.get(id, tableSuffix);
     }
 }

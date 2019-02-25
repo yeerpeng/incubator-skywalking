@@ -38,4 +38,9 @@ public class InstanceMappingMinuteH2PersistenceDAO extends AbstractInstanceMappi
     @Override protected String tableName() {
         return InstanceMappingTable.TABLE + Const.ID_SPLIT + TimePyramid.Minute.getName();
     }
+
+    @Override
+    public String getTableSuffix(InstanceMapping data) {
+        return "";
+    }
 }

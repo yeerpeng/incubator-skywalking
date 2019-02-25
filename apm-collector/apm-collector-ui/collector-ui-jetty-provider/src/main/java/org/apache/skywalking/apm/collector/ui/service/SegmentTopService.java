@@ -23,7 +23,10 @@ import org.apache.skywalking.apm.collector.core.module.ModuleManager;
 import org.apache.skywalking.apm.collector.core.util.*;
 import org.apache.skywalking.apm.collector.storage.StorageModule;
 import org.apache.skywalking.apm.collector.storage.dao.ui.*;
+import org.apache.skywalking.apm.collector.storage.table.global.GlobalTraceTable;
+import org.apache.skywalking.apm.collector.storage.table.segment.SegmentDurationTable;
 import org.apache.skywalking.apm.collector.storage.ui.trace.*;
+import org.apache.skywalking.apm.collector.ui.utils.EsIndexSuffixUtil;
 import org.slf4j.*;
 
 /**
@@ -49,19 +52,22 @@ public class SegmentTopService {
             startSecondTimeBucket, endSecondTimeBucket, minDuration,
             maxDuration, operationName, traceId, applicationId, limit, from, traceState, queryOrder);
 
+        String[] globalTraceIndex = EsIndexSuffixUtil.getEsIndexByDate(GlobalTraceTable.TABLE, startSecondTimeBucket, endSecondTimeBucket);
+        String[] segmentDurationIndex = EsIndexSuffixUtil.getEsIndexByDate(SegmentDurationTable.TABLE, startSecondTimeBucket, endSecondTimeBucket);
+
         TraceBrief traceBrief;
         if (StringUtils.isNotEmpty(traceId)) {
-            List<String> segmentIds = globalTraceUIDAO.getSegmentIds(traceId);
+            List<String> segmentIds = globalTraceUIDAO.getSegmentIds(traceId, globalTraceIndex);
             if (CollectionUtils.isEmpty(segmentIds)) {
                 return new TraceBrief();
             }
-            traceBrief = segmentDurationUIDAO.loadTop(startSecondTimeBucket, endSecondTimeBucket, minDuration, maxDuration, operationName, applicationId, limit, from, traceState, queryOrder, segmentIds.toArray(new String[0]));
+            traceBrief = segmentDurationUIDAO.loadTop(segmentDurationIndex, startSecondTimeBucket, endSecondTimeBucket, minDuration, maxDuration, operationName, applicationId, limit, from, traceState, queryOrder, segmentIds.toArray(new String[0]));
         } else {
-            traceBrief = segmentDurationUIDAO.loadTop(startSecondTimeBucket, endSecondTimeBucket, minDuration, maxDuration, operationName, applicationId, limit, from, traceState, queryOrder);
+            traceBrief = segmentDurationUIDAO.loadTop(segmentDurationIndex, startSecondTimeBucket, endSecondTimeBucket, minDuration, maxDuration, operationName, applicationId, limit, from, traceState, queryOrder);
         }
 
         traceBrief.getTraces().forEach(trace -> {
-            List<String> traceIds = globalTraceUIDAO.getGlobalTraceId(trace.getSegmentId());
+            List<String> traceIds = globalTraceUIDAO.getGlobalTraceId(trace.getSegmentId(), globalTraceIndex);
             trace.getTraceIds().addAll(traceIds);
         });
 

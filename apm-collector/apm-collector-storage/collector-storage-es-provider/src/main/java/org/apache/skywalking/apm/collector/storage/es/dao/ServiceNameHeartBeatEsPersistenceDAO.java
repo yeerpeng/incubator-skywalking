@@ -44,7 +44,7 @@ public class ServiceNameHeartBeatEsPersistenceDAO extends EsDAO implements IServ
     }
 
     @GraphComputingMetric(name = "/persistence/get/" + ServiceNameTable.TABLE + "/heartbeat")
-    @Override public ServiceName get(String id) {
+    @Override public ServiceName get(String id, String tableSuffix) {
         String[] includeSources = {ServiceNameTable.HEARTBEAT_TIME.getName()};
         GetResponse getResponse = getClient().prepareGet(ServiceNameTable.TABLE, id).setFetchSource(includeSources, null).get();
         if (getResponse.isExists()) {
@@ -65,6 +65,11 @@ public class ServiceNameHeartBeatEsPersistenceDAO extends EsDAO implements IServ
             }
             return null;
         }
+    }
+
+    @Override
+    public String getTableSuffix(ServiceName data) {
+        return "";
     }
 
     @Override public IndexRequestBuilder prepareBatchInsert(ServiceName data) {

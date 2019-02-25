@@ -44,7 +44,7 @@ public class InstanceHeartBeatEsPersistenceDAO extends EsDAO implements IInstanc
     }
 
     @GraphComputingMetric(name = "/persistence/get/" + InstanceTable.TABLE + "/heartbeat")
-    @Override public Instance get(String id) {
+    @Override public Instance get(String id, String tableSuffix) {
         GetResponse getResponse = getClient().prepareGet(InstanceTable.TABLE, id).get();
         if (getResponse.isExists()) {
             Map<String, Object> source = getResponse.getSource();
@@ -59,6 +59,11 @@ public class InstanceHeartBeatEsPersistenceDAO extends EsDAO implements IInstanc
             logger.debug("instance id: {} not exists", id);
             return null;
         }
+    }
+
+    @Override
+    public String getTableSuffix(Instance data) {
+        return "";
     }
 
     @Override public IndexRequestBuilder prepareBatchInsert(Instance data) {

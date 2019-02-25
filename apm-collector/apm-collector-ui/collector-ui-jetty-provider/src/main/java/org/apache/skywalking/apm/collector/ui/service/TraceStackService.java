@@ -30,13 +30,18 @@ import org.apache.skywalking.apm.collector.core.util.Const;
 import org.apache.skywalking.apm.collector.storage.StorageModule;
 import org.apache.skywalking.apm.collector.storage.dao.ui.IGlobalTraceUIDAO;
 import org.apache.skywalking.apm.collector.storage.dao.ui.ISegmentUIDAO;
+import org.apache.skywalking.apm.collector.storage.table.global.GlobalTraceTable;
 import org.apache.skywalking.apm.collector.storage.table.register.ServiceName;
+import org.apache.skywalking.apm.collector.storage.table.segment.SegmentTable;
 import org.apache.skywalking.apm.collector.storage.ui.trace.*;
+import org.apache.skywalking.apm.collector.ui.utils.EsIndexSuffixUtil;
 import org.apache.skywalking.apm.network.proto.SpanObject;
 import org.apache.skywalking.apm.network.proto.TraceSegmentObject;
 import org.apache.skywalking.apm.network.proto.UniqueId;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -64,13 +69,18 @@ public class TraceStackService {
     }
 
     public Trace load(String traceId) {
+        String[] idBu = traceId.split("_");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+        String time = formatter.format(new Date(Long.parseLong(idBu[1])));
+        String[] globalTraceIndex = EsIndexSuffixUtil.getEsIndexByDate(GlobalTraceTable.TABLE, Long.parseLong(time), Long.parseLong(time));
+        String[] segmentIndex = EsIndexSuffixUtil.getEsIndexByDate(SegmentTable.TABLE, Long.parseLong(time), Long.parseLong(time));
         Trace trace = new Trace();
-        List<String> segmentIds = globalTraceDAO.getSegmentIds(traceId);
+        List<String> segmentIds = globalTraceDAO.getSegmentIds(idBu[0], globalTraceIndex);
         if (CollectionUtils.isNotEmpty(segmentIds)) {
             for (String segmentId : segmentIds) {
-                TraceSegmentObject segment = segmentDAO.load(segmentId);
+                TraceSegmentObject segment = segmentDAO.load(segmentId, segmentIndex);
                 if (nonNull(segment)) {
-                    trace.getSpans().addAll(buildSpanList(traceId, segmentId, segment.getApplicationId(), segment.getSpansList()));
+                    trace.getSpans().addAll(buildSpanList(idBu[0], segmentId, segment.getApplicationId(), segment.getSpansList()));
                 }
             }
         }

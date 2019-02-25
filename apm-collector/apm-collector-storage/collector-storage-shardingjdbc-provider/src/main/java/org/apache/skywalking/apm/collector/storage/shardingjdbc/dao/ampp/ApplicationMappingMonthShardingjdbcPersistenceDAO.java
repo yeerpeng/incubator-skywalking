@@ -38,4 +38,9 @@ public class ApplicationMappingMonthShardingjdbcPersistenceDAO extends AbstractA
     @Override protected String tableName() {
         return ApplicationMappingTable.TABLE + Const.ID_SPLIT + TimePyramid.Month.getName();
     }
+
+    @Override
+    public String getTableSuffix(ApplicationMapping data) {
+        return "";
+    }
 }

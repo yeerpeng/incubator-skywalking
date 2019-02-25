@@ -38,4 +38,9 @@ public class InstanceReferenceMinuteMetricH2PersistenceDAO extends AbstractInsta
     @Override protected String tableName() {
         return InstanceReferenceMetricTable.TABLE + Const.ID_SPLIT + TimePyramid.Minute.getName();
     }
+
+    @Override
+    public String getTableSuffix(InstanceReferenceMetric data) {
+        return "";
+    }
 }

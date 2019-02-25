@@ -38,4 +38,9 @@ public class CpuMinuteMetricH2PersistenceDAO extends AbstractCpuMetricH2Persiste
     @Override protected String tableName() {
         return CpuMetricTable.TABLE + Const.ID_SPLIT + TimePyramid.Minute.getName();
     }
+
+    @Override
+    public String getTableSuffix(CpuMetric data) {
+        return "";
+    }
 }

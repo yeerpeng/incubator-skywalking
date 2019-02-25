@@ -38,4 +38,9 @@ public class ResponseTimeDistributionMinuteShardingjdbcPersistenceDAO extends Ab
     @Override protected String tableName() {
         return ResponseTimeDistributionTable.TABLE + Const.ID_SPLIT + TimePyramid.Minute.getName();
     }
+
+    @Override
+    public String getTableSuffix(ResponseTimeDistribution data) {
+        return "";
+    }
 }

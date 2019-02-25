@@ -85,7 +85,12 @@ public class InstanceReferenceAlarmShardingjdbcPersistenceDAO extends AbstractPe
     }
     
     @GraphComputingMetric(name = "/persistence/get/" + InstanceReferenceAlarmTable.TABLE)
-    @Override public InstanceReferenceAlarm get(String id) {
-        return super.get(id);
+    @Override public InstanceReferenceAlarm get(String id, String tableSuffix) {
+        return super.get(id, tableSuffix);
+    }
+
+    @Override
+    public String getTableSuffix(InstanceReferenceAlarm data) {
+        return "";
     }
 }

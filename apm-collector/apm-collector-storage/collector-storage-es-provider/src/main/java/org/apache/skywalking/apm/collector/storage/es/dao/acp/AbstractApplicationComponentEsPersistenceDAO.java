@@ -60,7 +60,7 @@ public abstract class AbstractApplicationComponentEsPersistenceDAO extends Abstr
     }
 
     @GraphComputingMetric(name = "/persistence/get/" + ApplicationComponentTable.TABLE)
-    @Override public final ApplicationComponent get(String id) {
-        return super.get(id);
+    @Override public final ApplicationComponent get(String id, String tableSuffix) {
+        return super.get(id, tableSuffix);
     }
 }

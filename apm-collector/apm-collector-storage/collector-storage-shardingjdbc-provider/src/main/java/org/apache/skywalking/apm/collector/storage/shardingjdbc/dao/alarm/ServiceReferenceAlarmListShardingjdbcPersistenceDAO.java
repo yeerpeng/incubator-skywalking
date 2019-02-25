@@ -88,7 +88,12 @@ public class ServiceReferenceAlarmListShardingjdbcPersistenceDAO extends Abstrac
     }
     
     @GraphComputingMetric(name = "/persistence/get/" + ServiceReferenceAlarmListTable.TABLE)
-    @Override public ServiceReferenceAlarmList get(String id) {
-        return super.get(id);
+    @Override public ServiceReferenceAlarmList get(String id, String tableSuffix) {
+        return super.get(id, tableSuffix);
+    }
+
+    @Override
+    public String getTableSuffix(ServiceReferenceAlarmList data) {
+        return "";
     }
 }

@@ -38,4 +38,9 @@ public class MemoryPoolMinuteMetricH2PersistenceDAO extends AbstractMemoryPoolMe
     @Override protected String tableName() {
         return MemoryPoolMetricTable.TABLE + Const.ID_SPLIT + TimePyramid.Minute.getName();
     }
+
+    @Override
+    public String getTableSuffix(MemoryPoolMetric data) {
+        return "";
+    }
 }

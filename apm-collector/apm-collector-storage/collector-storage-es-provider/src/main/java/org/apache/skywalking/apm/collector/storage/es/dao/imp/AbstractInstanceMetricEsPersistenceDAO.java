@@ -65,7 +65,7 @@ public abstract class AbstractInstanceMetricEsPersistenceDAO extends AbstractPer
     }
 
     @GraphComputingMetric(name = "/persistence/get/" + InstanceMetricTable.TABLE)
-    @Override public final InstanceMetric get(String id) {
-        return super.get(id);
+    @Override public final InstanceMetric get(String id, String tableSuffix) {
+        return super.get(id, tableSuffix);
     }
 }

@@ -38,4 +38,9 @@ public class MemoryPoolHourMetricShardingjdbcPersistenceDAO extends AbstractMemo
     @Override protected String tableName() {
         return MemoryPoolMetricTable.TABLE + Const.ID_SPLIT + TimePyramid.Hour.getName();
     }
+
+    @Override
+    public String getTableSuffix(MemoryPoolMetric data) {
+        return "";
+    }
 }

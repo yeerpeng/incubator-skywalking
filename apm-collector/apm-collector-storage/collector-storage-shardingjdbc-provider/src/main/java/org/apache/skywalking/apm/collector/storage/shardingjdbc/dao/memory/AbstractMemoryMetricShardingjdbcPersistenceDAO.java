@@ -77,7 +77,7 @@ public abstract class AbstractMemoryMetricShardingjdbcPersistenceDAO extends Abs
     }
     
     @GraphComputingMetric(name = "/persistence/get/" + MemoryMetricTable.TABLE)
-    @Override public final MemoryMetric get(String id) {
-        return super.get(id);
+    @Override public final MemoryMetric get(String id, String tableSuffix) {
+        return super.get(id, tableSuffix);
     }
 }

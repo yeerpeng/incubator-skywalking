@@ -38,4 +38,9 @@ public class CpuHourMetricShardingjdbcPersistenceDAO extends AbstractCpuMetricSh
     @Override protected String tableName() {
         return CpuMetricTable.TABLE + Const.ID_SPLIT + TimePyramid.Hour.getName();
     }
+
+    @Override
+    public String getTableSuffix(CpuMetric data) {
+        return "";
+    }
 }

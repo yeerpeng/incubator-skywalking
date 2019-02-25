@@ -66,8 +66,8 @@ public class TraceStackServiceTest {
 
     @Test
     public void load() {
-        when(globalTraceDAO.getSegmentIds(anyString())).then(invocation -> Lists.newArrayList("1", "2", "3"));
-        when(segmentDAO.load(anyString())).then(invocation -> {
+        when(globalTraceDAO.getSegmentIds(anyString(), null)).then(invocation -> Lists.newArrayList("1", "2", "3"));
+        when(segmentDAO.load(anyString(), null)).then(invocation -> {
             TraceSegmentReference traceSegmentReference = TraceSegmentReference.newBuilder()
                     .setRefType(RefType.CrossProcess)
                     .setRefTypeValue(1)

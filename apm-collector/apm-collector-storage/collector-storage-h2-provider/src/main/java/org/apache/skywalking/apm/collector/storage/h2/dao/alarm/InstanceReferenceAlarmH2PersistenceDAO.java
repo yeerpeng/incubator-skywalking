@@ -77,4 +77,9 @@ public class InstanceReferenceAlarmH2PersistenceDAO extends AbstractPersistenceH
 
         return target;
     }
+
+    @Override
+    public String getTableSuffix(InstanceReferenceAlarm data) {
+        return "";
+    }
 }

@@ -70,7 +70,7 @@ public abstract class AbstractInstanceReferenceMetricEsPersistenceDAO extends Ab
     }
 
     @GraphComputingMetric(name = "/persistence/get/" + InstanceReferenceMetricTable.TABLE)
-    @Override public final InstanceReferenceMetric get(String id) {
-        return super.get(id);
+    @Override public final InstanceReferenceMetric get(String id, String tableSuffix) {
+        return super.get(id, tableSuffix);
     }
 }

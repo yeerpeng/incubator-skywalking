@@ -38,4 +38,9 @@ public class InstanceReferenceMonthMetricShardingjdbcPersistenceDAO extends Abst
     @Override protected String tableName() {
         return InstanceReferenceMetricTable.TABLE + Const.ID_SPLIT + TimePyramid.Month.getName();
     }
+
+    @Override
+    public String getTableSuffix(InstanceReferenceMetric data) {
+        return "";
+    }
 }

@@ -38,4 +38,9 @@ public class MemoryDayMetricShardingjdbcPersistenceDAO extends AbstractMemoryMet
     @Override protected String tableName() {
         return MemoryMetricTable.TABLE + Const.ID_SPLIT + TimePyramid.Day.getName();
     }
+
+    @Override
+    public String getTableSuffix(MemoryMetric data) {
+        return "";
+    }
 }

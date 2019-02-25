@@ -38,4 +38,9 @@ public class ApplicationComponentMonthShardingjdbcPersistenceDAO extends Abstrac
     @Override protected String tableName() {
         return ApplicationComponentTable.TABLE + Const.ID_SPLIT + TimePyramid.Month.getName();
     }
+
+    @Override
+    public String getTableSuffix(ApplicationComponent data) {
+        return "";
+    }
 }

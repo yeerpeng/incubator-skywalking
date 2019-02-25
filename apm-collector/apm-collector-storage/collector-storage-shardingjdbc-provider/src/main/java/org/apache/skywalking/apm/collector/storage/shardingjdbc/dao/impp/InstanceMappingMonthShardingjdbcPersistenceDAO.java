@@ -38,4 +38,9 @@ public class InstanceMappingMonthShardingjdbcPersistenceDAO extends AbstractInst
     @Override protected String tableName() {
         return InstanceMappingTable.TABLE + Const.ID_SPLIT + TimePyramid.Month.getName();
     }
+
+    @Override
+    public String getTableSuffix(InstanceMapping data) {
+        return "";
+    }
 }

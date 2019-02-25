@@ -38,4 +38,9 @@ public class ResponseTimeDistributionMonthShardingjdbcPersistenceDAO extends Abs
     @Override protected String tableName() {
         return ResponseTimeDistributionTable.TABLE + Const.ID_SPLIT + TimePyramid.Month.getName();
     }
+
+    @Override
+    public String getTableSuffix(ResponseTimeDistribution data) {
+        return "";
+    }
 }

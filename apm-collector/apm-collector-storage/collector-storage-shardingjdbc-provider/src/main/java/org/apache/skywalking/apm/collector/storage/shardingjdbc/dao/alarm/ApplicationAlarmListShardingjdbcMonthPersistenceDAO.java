@@ -38,4 +38,9 @@ public class ApplicationAlarmListShardingjdbcMonthPersistenceDAO extends Abstrac
     @Override protected String tableName() {
         return ApplicationAlarmListTable.TABLE + Const.ID_SPLIT + TimePyramid.Month.getName();
     }
+
+    @Override
+    public String getTableSuffix(ApplicationAlarmList data) {
+        return "";
+    }
 }
